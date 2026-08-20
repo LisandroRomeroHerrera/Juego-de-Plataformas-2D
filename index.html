@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Game Boy Mario Land - Edición Modular</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="gameboy">
+        <div class="screen-bezel">
+            <div class="bezel-header">
+                <div class="battery-led"></div>
+                <div class="bezel-title">DOT MATRIX WITH STEREO SOUND</div>
+            </div>
+            <div class="screen-container">
+    <canvas id="gameCanvas" width="570" height="360"></canvas>
+</div>
+        </div>
+        
+        <div class="brand">Game Boy <span>COLOR</span></div>
+
+        <div class="controls">
+            <div class="dpad">
+                <div class="dpad-v"></div>
+                <div class="dpad-h"></div>
+                <div class="dpad-center-mark"></div>
+            </div>
+
+            <div class="buttons-ab">
+                <div class="btn-wrapper">
+                    <div class="btn-round"></div>
+                    <div class="btn-label-ab">B</div>
+                </div>
+                <div class="btn-wrapper">
+                    <div class="btn-round"></div>
+                    <div class="btn-label-ab">A</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="system-buttons">
+            <div class="system-btn-group">
+                <div class="btn-pill"></div>
+                <div class="system-label">SELECCION</div>
+            </div>
+            <div class="system-btn-group">
+                <div class="btn-pill"></div>
+                <div class="system-label">INICIO</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="instructions">
+        Moverse: <b>A / D o Flechas</b> | Saltar: <b>Espacio / W</b> | Entrar Tubería: <b>S / Flecha Abajo</b>
+    </div>
+
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>
