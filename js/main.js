@@ -1,6 +1,6 @@
 import { initAudio, playSound, startBGM, stopBGM } from './audio.js';
 import { Player, checkColl } from './entities.js';
-import { buildLevelData, ISLAND_NAMES } from './levelLoader.js';
+import { buildLevelData, ISLAND_NAMES } from './levelloader.js';
 import { setupInputListener, keys } from './input.js';
 import { Renderer, PALETTE } from './renderer.js';
 
