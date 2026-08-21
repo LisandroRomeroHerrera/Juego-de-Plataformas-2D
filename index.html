@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Super Game Boy Mario Land - Edición Modular</title>
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -22,31 +22,39 @@
         <div class="brand">Game Boy <span>COLOR</span></div>
 
         <div class="controls">
+            <!-- Cruceta direccional con zonas de toque individuales -->
             <div class="dpad">
                 <div class="dpad-v"></div>
                 <div class="dpad-h"></div>
                 <div class="dpad-center-mark"></div>
+                
+                <div id="btn-up" class="dpad-btn dpad-up"></div>
+                <div id="btn-down" class="dpad-btn dpad-down"></div>
+                <div id="btn-left" class="dpad-btn dpad-left"></div>
+                <div id="btn-right" class="dpad-btn dpad-right"></div>
             </div>
 
+            <!-- Botones B y A -->
             <div class="buttons-ab">
                 <div class="btn-wrapper">
-                    <div class="btn-round"></div>
+                    <div id="btn-b" class="btn-round"></div>
                     <div class="btn-label-ab">B</div>
                 </div>
                 <div class="btn-wrapper">
-                    <div class="btn-round"></div>
+                    <div id="btn-a" class="btn-round"></div>
                     <div class="btn-label-ab">A</div>
                 </div>
             </div>
         </div>
 
+        <!-- Botones Select y Start -->
         <div class="system-buttons">
             <div class="system-btn-group">
-                <div class="btn-pill"></div>
+                <div id="btn-select" class="btn-pill"></div>
                 <div class="system-label">SELECCION</div>
             </div>
             <div class="system-btn-group">
-                <div class="btn-pill"></div>
+                <div id="btn-start" class="btn-pill"></div>
                 <div class="system-label">INICIO</div>
             </div>
         </div>
@@ -56,7 +64,6 @@
         Moverse: <b>A / D o Flechas</b> | Saltar: <b>Espacio / W</b> | Entrar Tubería: <b>S / Flecha Abajo</b>
     </div>
 
-    <!-- Se añade ?v=1.0.1 para forzar la recarga del archivo JS sin caché -->
-    <script type="module" src="js/main.js?v=1.0.1"></script>
+    <script type="module" src="js/main.js?v=1.0.2"></script>
 </body>
 </html>

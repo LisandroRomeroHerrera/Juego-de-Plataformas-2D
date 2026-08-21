@@ -236,3 +236,33 @@ canvas {
 .instructions b {
     color: #9bbc0f;
 }
+
+
+/* Ajuste responsivo para celulares */
+@media (max-width: 600px) {
+    .gameboy {
+        width: 95vw;          /* Ocupa el 95% del ancho de la pantalla */
+        max-width: 400px;
+        padding: 15px;
+        box-sizing: border-box;
+    }
+
+    .screen-container {
+        width: 100%;
+        height: auto;
+    }
+
+    /* El canvas escala manteniendo su resolución interna de 570x360 */
+    canvas#gameCanvas {
+        width: 100% !important;
+        height: auto !important;
+        display: block;
+    }
+
+    /* Mejora la respuesta al toque en pantallas táctiles */
+    .dpad, .btn-round, .btn-pill {
+        touch-action: manipulation;
+        user-select: none;
+        -webkit-user-select: none;
+    }
+}
