@@ -88,42 +88,44 @@ class Game {
     }
 
     init() {
-        setupInputListener(code => this.handleKeyDown(code));
-        this.loop();
+    setupInputListener(keys);
+    window.addEventListener('keydown', (e) => this.handleKeyDown(e.code));
+    this.loop();
     }
 
     handleKeyDown(code) {
         initAudio();
 
-        if (this.gameState === STATE_QUIZ && !this.robotExploding) {
-            if (code === 'ArrowRight' || code === 'KeyD') {
-                if (this.quizSelectedIndex % 2 === 0) this.quizSelectedIndex += 1;
-            } else if (code === 'ArrowLeft' || code === 'KeyA') {
-                if (this.quizSelectedIndex % 2 === 1) this.quizSelectedIndex -= 1;
-            } else if (code === 'ArrowDown' || code === 'KeyS') {
-                if (this.quizSelectedIndex < 2) this.quizSelectedIndex += 2;
-            } else if (code === 'ArrowUp' || code === 'KeyW') {
-                if (this.quizSelectedIndex >= 2) this.quizSelectedIndex -= 2;
-            }
+        // Dentro del método handleKeyDown(code) de main.js:
+if (this.gameState === STATE_QUIZ && !this.robotExploding) {
+    if (code === 'ArrowRight' || code === 'KeyD') {
+        if (this.quizSelectedIndex % 2 === 0) this.quizSelectedIndex += 1;
+    } else if (code === 'ArrowLeft' || code === 'KeyA') {
+        if (this.quizSelectedIndex % 2 === 1) this.quizSelectedIndex -= 1;
+    } else if (code === 'ArrowDown' || code === 'KeyS') {
+        if (this.quizSelectedIndex < 2) this.quizSelectedIndex += 2;
+    } else if (code === 'ArrowUp' || code === 'KeyW') {
+        if (this.quizSelectedIndex >= 2) this.quizSelectedIndex -= 2;
+    }
 
-            if (code === 'Digit1' || code === 'Numpad1') this.quizSelectedIndex = 0;
-            if (code === 'Digit2' || code === 'Numpad2') this.quizSelectedIndex = 1;
-            if (code === 'Digit3' || code === 'Numpad3') this.quizSelectedIndex = 2;
-            if (code === 'Digit4' || code === 'Numpad4') this.quizSelectedIndex = 3;
+    if (code === 'Digit1' || code === 'Numpad1') this.quizSelectedIndex = 0;
+    if (code === 'Digit2' || code === 'Numpad2') this.quizSelectedIndex = 1;
+    if (code === 'Digit3' || code === 'Numpad3') this.quizSelectedIndex = 2;
+    if (code === 'Digit4' || code === 'Numpad4') this.quizSelectedIndex = 3;
 
-            if (code === 'Enter' || code === 'Space' || code === 'Digit1' || code === 'Digit2' || code === 'Digit3' || code === 'Digit4' || code === 'Numpad1' || code === 'Numpad2' || code === 'Numpad3' || code === 'Numpad4') {
-                const currentQuiz = QUIZ_QUESTIONS[this.selectedIsland] || QUIZ_QUESTIONS[0];
-                if (this.quizSelectedIndex === currentQuiz.correct) {
-                    playSound('powerup');
-                    this.robotExploding = true;
-                    this.robotExplodeTimer = 0;
-                } else {
-                    playSound('hit');
-                    this.gameState = STATE_GAMEOVER;
-                }
-            }
-            return;
+    if (code === 'Enter' || code === 'Space' || code === 'Digit1' || code === 'Digit2' || code === 'Digit3' || code === 'Digit4' || code === 'Numpad1' || code === 'Numpad2' || code === 'Numpad3' || code === 'Numpad4') {
+        const currentQuiz = QUIZ_QUESTIONS[this.selectedIsland] || QUIZ_QUESTIONS[0];
+        if (this.quizSelectedIndex === currentQuiz.correct) {
+            playSound('powerup');
+            this.robotExploding = true;
+            this.robotExplodeTimer = 0;
+        } else {
+            playSound('hit');
+            this.gameState = STATE_GAMEOVER;
         }
+    }
+    return;
+}
 
         if (code === 'Space' || code === 'KeyW' || code === 'Enter') {
             if (this.gameState === STATE_MENU) {
@@ -359,28 +361,43 @@ class Game {
     }
 
     update() {
-        if (this.player.invincible > 0) this.player.invincible--;
+    if (this.player.invincible > 0) this.player.invincible--;
 
-        if (this.gameState === STATE_INTRO) {
-            this.introTimer++;
-            if (this.introTimer > 280) {
+    // Permite iniciar el juego desde el celular usando el botón Start/Espacio en pantallas interactivas
+    if (keys['Space']) {
+        if (this.gameState === STATE_MENU) {
+            initAudio();
+            this.gameState = STATE_INTRO;
+            this.introTimer = 0;
+            keys['Space'] = false; // Limpia el estado para evitar múltiples disparos por frame
+        } else if (this.gameState === STATE_INTRO) {
+            this.gameState = STATE_MAP;
+            keys['Space'] = false;
+        } else if (this.gameState === STATE_MAP) {
+            this.loadLevel(this.selectedIsland);
+            this.gameState = STATE_PLAYING;
+            startBGM(this.gameState === STATE_PLAYING);
+            keys['Space'] = false;
+        } else if (this.gameState === STATE_LEVEL_CLEAR) {
+            if (this.unlockedIslands >= 5 && this.selectedIsland === 4) {
+                this.gameState = STATE_WIN_GAME;
+            } else {
                 this.gameState = STATE_MAP;
             }
-            return;
+            keys['Space'] = false;
+        } else if (this.gameState === STATE_GAMEOVER || this.gameState === STATE_WIN_GAME) {
+            this.gameState = STATE_MAP;
+            keys['Space'] = false;
         }
+    }
 
-        if (this.pipeState === 'ENTERING') {
-            this.player.y += 1.2;
-            this.pipeTimer++;
-            if (this.pipeTimer > 25) {
-                if (this.savedMainLevel) {
-                    this.exitBonusRoom();
-                } else {
-                    this.enterBonusRoom(this.activePipe);
-                }
-            }
-            return;
+    if (this.gameState === STATE_INTRO) {
+        this.introTimer++;
+        if (this.introTimer > 280) {
+            this.gameState = STATE_MAP;
         }
+        return;
+    }
 
         if (this.gameState === STATE_FLAG_ANIM) {
             if (this.player.y < this.flag.y + this.flag.h - this.player.h) {
